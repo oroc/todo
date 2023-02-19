@@ -33,37 +33,35 @@ export class AppComponent implements OnInit {
     return { completed, pending };
   }
 
-  markAsCompleted(event: any, item: ITodo) {
-    const thisTaskStatus = this.getIndexOfTask('completed', item.id);
+  markAsCompleted(event: any, item: ITodo, todoList: any) {
+    const thisTaskStatus = this.getIndexOfTask('completed', item.id, todoList);
 
     const isPending = thisTaskStatus === -1;
 
     if (isPending) {
-      this.todoList['completed'].push(item);
+      todoList['completed'].push(item);
 
-      const completedItemIndex = this.getIndexOfTask('pending', item.id);
+      const completedItemIndex = this.getIndexOfTask(
+        'pending',
+        item.id,
+        todoList
+      );
 
-      // setTimeout(() => {
-      this.todoList['pending'].splice(completedItemIndex, 1);
-      this.showSnackBar('Task Completed');
-      // }, 1000);
+      todoList['pending'].splice(completedItemIndex, 1);
+      if (event !== null) this.showSnackBar('Task Completed');
     }
   }
 
-  unMarkAsCompleted(event: any) {
-    console.log(event);
-    const taskItemIndex = this.getIndexOfTask(
-      'completed',
-      event.source.value.id
-    );
+  unMarkAsCompleted(event: any, item: ITodo, todoList: any) {
+    const taskItemIndex = this.getIndexOfTask('completed', item.id, todoList);
 
-    this.todoList['completed'].splice(taskItemIndex, 1);
-    this.todoList['pending'].push(event.source.value);
-    this.showSnackBar('Task Undone');
+    todoList['completed'].splice(taskItemIndex, 1);
+    todoList['pending'].push(item);
+    if (event !== null) this.showSnackBar('Task Undone');
   }
 
-  getIndexOfTask(taskStatusType: string, id: number) {
-    return this.todoList[taskStatusType].findIndex((element: ITodo) => {
+  getIndexOfTask(taskStatusType: string, id: number, obj: any) {
+    return obj[taskStatusType].findIndex((element: ITodo) => {
       return element.id === id;
     });
   }

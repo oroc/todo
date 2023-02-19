@@ -11,6 +11,6 @@ describe('TodosService', () => {
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    expect(service.getTodos).toBeTruthy();
   });
 });

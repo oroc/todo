@@ -4,9 +4,7 @@
 </mat-toolbar>
 <div class="contents">
   <mat-card class="section">
-    <div mat-card-title class="card-title">
-      I did it! {{ todoList.completed.length }}
-    </div>
+    <div mat-card-title class="card-title">I did it!</div>
     <mat-card-content>
       <div class="done-cards-flex-container">
         <mat-card class="done-card" *ngFor="let item of todoList.completed">
@@ -14,7 +12,7 @@
             <mat-checkbox
               color="warn"
               [(ngModel)]="item.completed"
-              (change)="unMarkAsCompleted($event)"
+              (change)="unMarkAsCompleted($event, item, todoList)"
               [value]="item"
             ></mat-checkbox>
           </div>
@@ -30,9 +28,7 @@
   </mat-card>
 
   <mat-card class="section">
-    <div mat-card-title class="card-title">
-      To Do {{ todoList.pending.length }}
-    </div>
+    <div mat-card-title class="card-title">To Do</div>
 
     <mat-card-content>
       <div class="todos-list-container">
@@ -45,7 +41,7 @@
             color="primary"
             [(ngModel)]="item.completed"
             [disabled]="item.completed"
-            (change)="markAsCompleted($event, item)"
+            (change)="markAsCompleted($event, item, todoList)"
             >{{ item.todo }}</mat-checkbox
           >
         </div>
